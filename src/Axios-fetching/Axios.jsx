@@ -1,40 +1,70 @@
-import React from 'react'
-import axios from 'axios'
+import React,{useEffect, useState} from 'react'
+import '../index.css';
+import '../App.css' 
+
+
 
 function Axios() {
 
-    const API = "https://unsplash.com/developers";
+    const API = "https://hn.algolia.com/api/v1/search?query=html";
 
-    const [image, setImage] = useState("");
+    const [data1 , setData] = useState([]);
 
-    const getImage = async () =>{
+ 
+
+    const getText = async (url) =>{
 
         
 
         try{
 
-            const resp = await axios.get(API);
-            setImage(API)
-            console.log(resp)
+            const resp = await fetch(url);
+            const data = await resp.json();
+            setData(data.hits)
+            console.log("datais",data.hits)
+
+            
+            
+
+           
 
         }catch(error){
 
             console.log(error)
+
+            
 
         }
     }
 
     useEffect(()=>{
 
-        image();
+        getText(API);
+        
+        
 
+        
     },[])
+
   return (
     <>
 
-    <div>
+    <div className="h-screen bg-blue-600">
 
-        <h1>{getImage}</h1>
+        <h1 className="text-blue-600 ">Hello</h1>
+        
+
+      {data1.map((item, index) => {
+
+        return(
+ 
+    <div key={index} className="bg-blue-500">
+      <h3>{item.title || "No title"}</h3>
+    </div>
+
+    );
+ 
+})}
     </div>
 
     
